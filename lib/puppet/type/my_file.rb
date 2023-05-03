@@ -10,7 +10,7 @@ newparam(:name, :namevar => true) do
 
 end
 
-newparam(:content) do
+newproperty(:content) do
   desc "file content"
 end
 
