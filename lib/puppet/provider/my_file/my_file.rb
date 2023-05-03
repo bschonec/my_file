@@ -1,32 +1,16 @@
 # frozen_string_literal: true
 
-require 'puppet/resource_api/simple_provider'
+Puppet::Type.type(:my_file).provide(:ruby) do
 
-# Implementation for the my_file type using the Resource API.
-class Puppet::Provider::MyFile::MyFile < Puppet::ResourceApi::SimpleProvider
-  def get(context)
-    context.debug('Returning pre-canned example data')
-    [
-      {
-        name: 'foo',
-        ensure: 'present',
-      },
-      {
-        name: 'bar',
-        ensure: 'present',
-      },
-    ]
-  end
+ desc 'my_file provider'
 
-  def create(context, name, should)
-    context.notice("Creating '#{name}' with #{should.inspect}")
-  end
+def content
+ File.read(resource[:name])
+end
+def content=(value)
+ content_file = File.open(resource[:name}, 'w+')
+ content_file.write(value)
+ content_file.close
+end
 
-  def update(context, name, should)
-    context.notice("Updating '#{name}' with #{should.inspect}")
-  end
-
-  def delete(context, name)
-    context.notice("Deleting '#{name}'")
-  end
 end
